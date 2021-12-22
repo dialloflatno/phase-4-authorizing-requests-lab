@@ -1,5 +1,4 @@
 class ArticlesController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
     articles = Article.where(is_member_only: false).includes(:user).order(created_at: :desc)
@@ -9,12 +8,6 @@ class ArticlesController < ApplicationController
   def show
     article = Article.find(params[:id])
     render json: article
-  end
-
-  private
-
-  def record_not_found
-    render json: { error: "Article not found" }, status: :not_found
   end
 
 end
